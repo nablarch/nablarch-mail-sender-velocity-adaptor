@@ -70,7 +70,7 @@ public class VelocityMailProcessor implements TemplateEngineMailProcessor {
     /**
      * Velocityのエントリーポイントとなる{@link VelocityEngine}を設定する。
      * 
-     * @param velocityEngine VelocityEngineのエンジン
+     * @param velocityEngine Velocityのエンジン
      */
     public void setVelocityEngine(VelocityEngine velocityEngine) {
         this.velocityEngine = velocityEngine;
