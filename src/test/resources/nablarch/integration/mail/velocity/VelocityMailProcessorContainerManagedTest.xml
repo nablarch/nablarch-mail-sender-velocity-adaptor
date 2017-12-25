@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component-configuration
+	xmlns="http://tis.co.jp/nablarch/component-configuration" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://tis.co.jp/nablarch/component-configuration">
+
+	<component name="templateEngineMailProcessor"
+		class="nablarch.integration.mail.velocity.VelocityMailProcessor"
+		autowireType="None">
+		<property name="velocityEngine">
+			<component
+				class="nablarch.integration.mail.velocity.VelocityMailProcessorContainerManagedTest$VelocityEngineFactory" />
+		</property>
+	</component>
+
+</component-configuration>
