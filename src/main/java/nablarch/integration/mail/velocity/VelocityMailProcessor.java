@@ -29,11 +29,15 @@ public class VelocityMailProcessor implements TemplateEngineMailProcessor {
     private String delimiter;
 
     /**
-     * テンプレートIDと言語から取得されたテンプレートと変数をマージして、その結果を返す。
+     * テンプレートIDから取得されたテンプレートと変数をマージして、その結果を返す。
      * 
      * <p>
      * テンプレートの検索は{@link VelocityEngine#getTemplate(String)}が使われる。
      * テンプレートと変数のマージは{@link Template#merge(Context, Writer)}が使われる。
+     * </p>
+     * 
+     * <p>
+     * ※この実装ではテンプレートの検索が多言語対応していないため、第二引数の言語は使用されない。
      * </p>
      * 
      * @see VelocityEngine#getTemplate(String)
