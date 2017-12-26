@@ -1,0 +1,9 @@
+あああ$foo
+---
+いいい
+#if ($bar)
+ううう
+#end
+#foreach ($baz in $bazs)
+えええ$baz
+#end
