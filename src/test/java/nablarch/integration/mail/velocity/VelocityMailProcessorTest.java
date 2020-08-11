@@ -3,9 +3,7 @@ package nablarch.integration.mail.velocity;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.exception.VelocityException;
@@ -40,10 +38,36 @@ public class VelocityMailProcessorTest {
         variables.put("foo", templateId);
         variables.put("bar", 123);
 
-        TemplateEngineProcessedResult result = sut.process(templateId, lang, variables);
+        TestDto dto = new TestDto();
+        dto.setParam("test");
+        variables.put("dto", dto);
+
+        List<String> list = new ArrayList<String>();
+        list.add("abc");
+        list.add("bcd");
+        variables.put("list", list);
+
+        TemplateEngineProcessedResult result = sut.process(templateId, lang, Collections.unmodifiableMap(variables));
+        System.out.println(result.getMailBody());
 
         assertThat(result.getSubject(), is("件名テスト：hello"));
-        assertThat(result.getMailBody(), is("本文テスト１：hello\r\n本文テスト２：123\r\n"));
+        assertThat(result.getMailBody(), is(
+                "本文テスト１：hello\r\n"
+                    + "本文テスト２：123\r\n"
+                    + "パラメータ[test]:[test}\r\n"
+                    + "リストの出力\r\n"
+                    + "abc\r\n"
+                    + "bcd\r\n"));
+    }
+
+    public class TestDto {
+        private String param;
+        public String getParam() {
+            return param;
+        }
+        public void setParam(String param) {
+            this.param = param;
+        }
     }
 
     /**
@@ -95,7 +119,15 @@ public class VelocityMailProcessorTest {
         StringResourceRepository repos = (StringResourceRepository) velocityEngine
                 .getApplicationAttribute(repositoryName);
         repos.putStringResource("hello",
-                "件名テスト：$foo\r\n---\r\n本文テスト１：$foo\r\n本文テスト２：$bar\r\n");
+                "件名テスト：$foo\r\n"
+                    + "---\r\n"
+                    + "本文テスト１：$foo\r\n"
+                    + "本文テスト２：$bar\r\n"
+                    + "パラメータ[$dto.param]:[$dto.param}\r\n"
+                    + "リストの出力\r\n"
+                    + "#foreach( $data in $list )\r\n"
+                    + "$data\r\n"
+                    + "#end");
         repos.putStringResource("alter-delimiter",
                 "---\r\n@@@\r\nAlter delimiter test.");
 
