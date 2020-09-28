@@ -4,6 +4,7 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,7 +43,7 @@ public class VelocityMailProcessorContainerManagedTest {
         variables.put("bazs", Arrays.asList("1", "2", "3"));
         TemplateEngineProcessedResult result = sut.process(
                 "nablarch/integration/mail/velocity/testProcessConfiguredByXml.txt", null,
-                variables);
+                Collections.unmodifiableMap(variables));
 
         assertThat(result.getSubject(), is("あああ0"));
         assertThat(result.getMailBody(), is("いいい\nえええ1\nえええ2\nえええ3\n"));

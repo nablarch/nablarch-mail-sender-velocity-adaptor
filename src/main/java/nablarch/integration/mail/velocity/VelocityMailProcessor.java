@@ -2,6 +2,7 @@ package nablarch.integration.mail.velocity;
 
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.velocity.Template;
@@ -68,7 +69,9 @@ public class VelocityMailProcessor implements TemplateEngineMailProcessor {
      * @return {@link Context}のインスタンス
      */
     protected Context createContext(Map<String, Object> variables) {
-        return new VelocityContext(variables);
+        // メール機能の実装により、変更不可なMapとしてvariablesが渡ってくるが、
+        // テンプレート内で#foreachを使用するとVelocityがここで指定したMapにputするためMapを作り直す。
+        return new VelocityContext(new HashMap<String, Object>(variables));
     }
 
     /**
